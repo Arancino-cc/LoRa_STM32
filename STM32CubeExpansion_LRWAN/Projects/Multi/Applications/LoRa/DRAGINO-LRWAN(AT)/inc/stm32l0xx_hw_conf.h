@@ -238,6 +238,12 @@ Maintainer: Miguel Luis and Gregory Cristian
 #define GPIO_INPUT_PORT           GPIOA	 
 #define GPIO_INPUT_PIN1           GPIO_PIN_12
 
+
+/* ---------------------------  ADC_IN0 definition -------------------------------*/
+#define ADC_IN0_LEVEL_PORT        GPIOA
+#define ADC_IN0_LEVEL_PIN         GPIO_PIN_0
+#define ADC_Channel_IN0           ADC_CHANNEL_0
+
 /* ---------------------------  ADC_IN1 definition -------------------------------*/
 #define ADC_IN1_LEVEL_PORT        GPIOA
 #define ADC_IN1_LEVEL_PIN         GPIO_PIN_1

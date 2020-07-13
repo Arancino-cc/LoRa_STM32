@@ -67,7 +67,7 @@ uint8_t flag1=0;
 
 uint8_t symbtime2_value=0;  //RX2windowtimeout 
 uint8_t flag2=0;
-uint16_t power_time=0;
+uint16_t power_time=500;
 /* External variables --------------------------------------------------------*/
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/

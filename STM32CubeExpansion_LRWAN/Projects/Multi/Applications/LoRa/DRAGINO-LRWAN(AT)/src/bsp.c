@@ -55,6 +55,7 @@
 /* Private define ------------------------------------------------------------*/
 #if defined(LoRa_Sensor_Node)
 #include "ds18b20.h"
+#include "pctum017.h"
 #include "oil_float.h"
 #include "gpio_exti.h"
 #include "sht20.h"
@@ -98,11 +99,23 @@ extern uint16_t power_time;
 void BSP_sensor_Read( sensor_t *sensor_data)
 {
  	#if defined(LoRa_Sensor_Node)
-	
+	PPRINTF("Enable 5v power\r\n");
 	HAL_GPIO_WritePin(PWR_OUT_PORT,PWR_OUT_PIN,GPIO_PIN_RESET);//Enable 5v power supply
 	
-	DelayMs(500+power_time);
-
+	DelayMs(1500+power_time);
+	#ifndef ORIG_DEMO
+	HW_GetBatteryLevel( );	
+  
+	AD_code1=HW_AdcReadChannel( ADC_Channel_IN0 );  //PA0
+	sensor_data->ADC_0=AD_code1*batteryLevel_mV/4095;
+	
+	AD_code2=HW_AdcReadChannel( ADC_Channel_IN1 );  //PA1
+	sensor_data->ADC_1=AD_code2*batteryLevel_mV/4095;
+	#ifdef DEBUG_MSG
+	PPRINTF("Batt:%d ADC0:%f mV ADC1:%f mV\r\n", batteryLevel_mV, sensor_data->ADC_0, sensor_data->ADC_1);
+	DelayMs(5000);
+	#endif
+	#else
 	HAL_GPIO_WritePin(OIL_CONTROL_PORT,OIL_CONTROL_PIN,GPIO_PIN_RESET);	
 	HW_GetBatteryLevel( );	
 	AD_code1=HW_AdcReadChannel( ADC_Channel_Oil );  //PA0
@@ -187,9 +200,9 @@ void BSP_sensor_Read( sensor_t *sensor_data)
 	   AD_code3=HW_AdcReadChannel( ADC_Channel_IN4 );	//PA4
 	   sensor_data->ADC_2=AD_code3*batteryLevel_mV/4095;  			
 	 }	 
-	 
+	#endif
 	HAL_GPIO_WritePin(PWR_OUT_PORT,PWR_OUT_PIN,GPIO_PIN_SET);//Disable 5v power supply
-	 
+	PPRINTF("Disable 5v power\r\n");
 	#endif
 }
 
@@ -362,7 +375,12 @@ void  BSP_sensor_Init( void  )
 	}
 	
 	 GPIO_INPUT_IoInit();
+	#ifndef ORIG_DEMO
+	 BSP_PCTUM_017_Init();
+	#else
 	 BSP_oil_float_Init();
+	#endif
+	
 	
 	#endif
 }

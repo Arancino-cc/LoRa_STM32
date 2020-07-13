@@ -1,23 +1,9 @@
-/*
- / _____)             _              | |
-( (____  _____ ____ _| |_ _____  ____| |__
- \____ \| ___ |    (_   _) ___ |/ ___)  _ \
- _____) ) ____| | | || |_| ____( (___| | | |
-(______/|_____)_|_|_| \__)_____)\____)_| |_|
-    (C)2013 Semtech
-
-Description: contains all hardware driver
-
-License: Revised BSD License, see LICENSE.TXT file include in the project
-
-Maintainer: Miguel Luis and Gregory Cristian
-*/
  /******************************************************************************
-  * @file    bsp.h
+  * @file    PCTUM_017.c
   * @author  MCD Application Team
-  * @version V1.1.4
-  * @date    08-January-2018
-  * @brief   contains all hardware driver
+  * @version V1.1.2
+  * @date    01-June-2017
+  * @brief   manages the sensors on the application
   ******************************************************************************
   * @attention
   *
@@ -57,66 +43,28 @@ Maintainer: Miguel Luis and Gregory Cristian
   *
   ******************************************************************************
   */
-
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __BSP_H__
-#define __BSP_H__
-
-#ifdef __cplusplus
- extern "C" {
-#endif
-/* Includes ------------------------------------------------------------------*/
-/* Exported types ------------------------------------------------------------*/
-
-typedef struct{
-	
-  int   in1;/*GPIO Digital Input 0 or 1*/
-	
-	float temp1;//DS18B20-1
-
-	float temp2;//DS18B20-2
-
-	float temp3;//DS18B20-3
-	
-	float oil;  //oil float
-	
-	float ADC_0; //ADC0
-	
-	float ADC_1; //ADC1
-	
-	float ADC_2;  //ADC2	
-
-	float temp_sht;
-	
-	float hum_sht;
-	
-  /**more may be added*/
-} sensor_t;
+  
+  /* Includes ------------------------------------------------------------------*/
+#include "hw.h"
+#include "pctum017.h"
 
 
-/* Exported constants --------------------------------------------------------*/
-/* External variables --------------------------------------------------------*/
-/* Exported macros -----------------------------------------------------------*/
-/* Exported functions ------------------------------------------------------- */ 
-/**
- * @brief  initialises the sensor
- *
- * @note
- * @retval None
- */
-void  BSP_sensor_Init( void  );
+/* Private typedef -----------------------------------------------------------*/
+/* Private define ------------------------------------------------------------*/
 
-/**
- * @brief  sensor  read. 
- *
- * @note none
- * @retval sensor_data
- */
-void BSP_sensor_Read( sensor_t *sensor_data);
+/* Private macro -------------------------------------------------------------*/
+/* Private variables ---------------------------------------------------------*/
+/* Private function prototypes -----------------------------------------------*/
+/* Exported functions ---------------------------------------------------------*/
 
-#ifdef __cplusplus
+/* Private variables ---------------------------------------------------------*/
+void  BSP_PCTUM_017_Init( void )
+{
+	GPIO_InitTypeDef initStruct={0};
+  initStruct.Mode =GPIO_MODE_ANALOG;
+  initStruct.Pull = GPIO_NOPULL;
+  initStruct.Speed = GPIO_SPEED_HIGH;
+
+  HW_GPIO_Init( BAT_LEVEL_PORT, BAT_LEVEL_PIN, &initStruct );
 }
-#endif
-
-#endif /* __BSP_H__ */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

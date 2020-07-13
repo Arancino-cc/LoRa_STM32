@@ -300,7 +300,7 @@ uint16_t HW_GetTemperatureLevel( void )
   {
     batteryLevelmV= (( (uint32_t) VDDA_VREFINT_CAL * (*VREFINT_CAL ) )/ measuredLevel);
   }
-#if 0  
+#ifdef DEBUG_MSG
   PRINTF("VDDA= %d\n\r", batteryLevelmV);
 #endif
   
@@ -308,7 +308,7 @@ uint16_t HW_GetTemperatureLevel( void )
   
   temperatureDegreeC = COMPUTE_TEMPERATURE( measuredLevel, batteryLevelmV);
 
-#if 0 
+#ifdef DEBUG_MSG 
   {
     uint16_t temperatureDegreeC_Int= (temperatureDegreeC)>>8;
     uint16_t temperatureDegreeC_Frac= ((temperatureDegreeC-(temperatureDegreeC_Int<<8))*100)>>8;  
